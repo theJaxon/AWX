@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: awx
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      volumes:
+      - name: postgres-v 
+        persistentVolumeClaim: 
+          claimName: postgres-pvc 
+      containers:
+      - image: postgres
+        name: postgres
+        env:
+        - name: POSTGRES_USER 
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: username
+        - name: POSTGRES_PASSWORD 
+          valueFrom:
+            secretKeyRef:
+              name: postgres 
+              key: password
+        volumeMounts:
+        - name: postgres-v 
+          mountPath: /var/lib/postgresql/data

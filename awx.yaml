@@ -1,0 +1,11 @@
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+metadata:
+  name: awx
+  namespace: awx
+spec:
+  tower_admin_user: awx
+  tower_admin_email: admin@admin.com
+  tower_admin_password_secret: awx-admin-password
+  tower_hostname: awx.local
+  tower_ingress_type: Ingress
